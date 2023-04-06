@@ -15,3 +15,4 @@ world_points_y = np.array([0, 3, 7, 11, 1, 11, 9, 1])
 world_points_z = np.array([0, 0, 0, 0, 0, 7, 0, 7])
 
 ##-------------------Mathematical Camera Calibration Script------------------##
+#Rename Cali Images
