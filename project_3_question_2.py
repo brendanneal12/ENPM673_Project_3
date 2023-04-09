@@ -10,7 +10,7 @@ import numpy as np
 
 ##-------------------------DEfining my File Names Array----------------------##
 Cali_Images = ["Img1.jpg", "Img2.jpg", "Img3.jpg", "Img4.jpg", "Img5.jpg", "Img6.jpg", "Img7.jpg", "Img8.jpg", "Img9.jpg", "Img10.jpg", "Img11.jpg", "Img12.jpg", "Img13.jpg"]
-
+Cali_Image_Idxs = [0,1,2,3,4,5,6,7,8,9,10,11,12]
 
 
 termination_criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 30, 0.001)
@@ -36,15 +36,42 @@ for image in Cali_Images:
         cv.drawChessboardCorners(Original_Image_Copy, (9,6), better_corners, Success)
         cv.namedWindow("Found Corners", cv.WINDOW_NORMAL)
         cv.resizeWindow("Found Corners", 500, 400)
-        cv.imshow("Found Corners", Original_Image_Copy); cv.waitKey(1) #Display Gray Scale Image
+        cv.imshow("Found Corners", Original_Image_Copy); cv.waitKey(1) 
 
 cv.destroyAllWindows()
 
 success, K, distortion, R, T = cv.calibrateCamera(object_points_array, image_points_array, Gray_Image.shape[::-1], None, None)
-#print(R[1])
 print("The Camera Intrinsic Matrix for this Camera is: \n", K)
-#print("The Projection Matrix for Image Number",)
-#ProjMatrix = K*[R,T]
+
+average_reprojection_error_temp = 0
+plotting_reproj_points = []
+for i in range(len(object_points_array)):
+    reproj_points, _ = cv.projectPoints(object_points_array[i], R[i], T[i], K, distortion)
+    plotting_reproj_points.append(reproj_points)
+
+    reproj_error = cv.norm(image_points_array[i], reproj_points, cv.NORM_L2)/len(reproj_points)
+
+    print("The Reprojection Error for Image",i+1,"is", reproj_error)
+    average_reprojection_error_temp += reproj_error
+
+
+
+
+
+average_reprojection_error = average_reprojection_error_temp/len(object_points_array)
+
+print("The average reprojection error for all images is", average_reprojection_error)
+
+
+for image, i in zip(Cali_Images, Cali_Image_Idxs):
+    Original_Image_Copy = cv.imread(image)
+    points = plotting_reproj_points[i]
+    for point in points:
+        cv.circle(Original_Image_Copy, tuple(point[0]), 8, (0,0,255), -1)
+        cv.namedWindow("Found Corners with Reprojected Points", cv.WINDOW_NORMAL)
+        cv.resizeWindow("Found Corners with Reprojected Points", 500, 400)
+        cv.imshow("Found Corners with Reprojected Points", Original_Image_Copy); cv.waitKey(10) 
+
 
  
 
