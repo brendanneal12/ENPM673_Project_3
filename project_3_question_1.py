@@ -68,3 +68,40 @@ C_Est = C_Est/C_Est.item(3)
 
 print("\n The estimated C Matrix is: \n", C_Est)
 
+##-------------------------Calculating M Matrix--------------------------##
+IC = np.array([[1, 0, 0, -C_Est.item(0)], [0, 1, 0, -C_Est.item(1)], [0, 0, 1, -C_Est.item(2)]])
+
+M = np.array([P_Est[0][:3], P_Est[1][:3], P_Est[2][:3]])
+print("\nThe Estimated M Matrix is:\n", M)
+
+
+##-------------------------Calculating R Matrix--------------------------##
+''' A1 A2 and A3 are the Rows of the M Matrix'''
+A1 = P_Est[0][:3]
+U1 = A1
+E1 = U1/np.linalg.norm(U1)
+
+
+A2 = P_Est[1][:3]
+U2 = A2 - np.dot(U1,A2)
+E2 = U2/np.linalg.norm(U2)
+
+
+A3 = P_Est[2][:3]
+U3 = A3 - np.dot(U1,A3) - np.dot(U2, A3)
+E3 = U3/np.linalg.norm(U3)
+
+
+R = np.array([E1, E2, E3]).T
+print("\nThe Estimated R Matrix is:\n", R)
+
+
+##------------------------Calculating K Matrix--------------------------##
+
+K = M*np.linalg.inv(R)
+print("\nThe Estimated Intrinsic Matrix K is:\n", K)
+
+
+
+
+
