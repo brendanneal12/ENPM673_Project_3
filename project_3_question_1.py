@@ -52,3 +52,19 @@ P_Calc_Matrix =np.array([[0, 0, 0, 0, -1*world_points_x[0], -1*world_points_y[0]
                          [-image_points_y[7]*world_points_x[7], -image_points_y[7]*world_points_y[7], -image_points_y[7]*world_points_z[7], -image_points_y[7]*1, image_points_x[7]*world_points_x[7], image_points_x[7]*world_points_y[7], image_points_x[7]*world_points_z[7], image_points_x[7]*1, 0, 0, 0,0]
                          ])
 
+
+_, _, v = np.linalg.svd(P_Calc_Matrix)
+P_Est = np.reshape(v[11], (3,4))
+P_Est = P_Est/P_Est.item(11)
+
+print("The estimated Projection Matrix is: \n", P_Est)
+
+
+##-----------------------Calculating C Matrix----------------------------##
+
+_, _, v_c = np.linalg.svd(P_Est)
+C_Est = np.reshape(v_c[3], (4,1))
+C_Est = C_Est/C_Est.item(3)
+
+print("\n The estimated C Matrix is: \n", C_Est)
+
