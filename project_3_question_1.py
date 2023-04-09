@@ -80,16 +80,19 @@ print("\nThe Estimated M Matrix is:\n", M)
 A1 = P_Est[0][:3]
 U1 = A1
 E1 = U1/np.linalg.norm(U1)
+print("\nE1 is:\n", E1)
 
 
 A2 = P_Est[1][:3]
 U2 = A2 - np.dot(U1,A2)
 E2 = U2/np.linalg.norm(U2)
+print("\nE2 is:\n", E2)
 
 
 A3 = P_Est[2][:3]
 U3 = A3 - np.dot(U1,A3) - np.dot(U2, A3)
 E3 = U3/np.linalg.norm(U3)
+print("\nE3 is:\n", E3)
 
 
 R = np.array([E1, E2, E3]).T
