@@ -36,7 +36,7 @@ for image in Cali_Images:
         cv.drawChessboardCorners(Original_Image_Copy, (9,6), better_corners, Success)
         cv.namedWindow("Found Corners", cv.WINDOW_NORMAL)
         cv.resizeWindow("Found Corners", 500, 400)
-        cv.imshow("Found Corners", Original_Image_Copy); cv.waitKey(1000) 
+        cv.imshow("Found Corners", Original_Image_Copy); cv.waitKey(1500) 
 
 cv.destroyAllWindows()
 
