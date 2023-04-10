@@ -72,9 +72,9 @@ IC = np.array([[1, 0, 0, -C_Est[0][0]], [0, 1, 0, -C_Est[1][0]], [0, 0, 1, -C_Es
 
 print("\n IC is: \n", IC)
 
-M = P_Est @ np.linalg.pinv(IC)
+#M = P_Est @ np.linalg.pinv(IC)
 
-#M = P_Est[:,:3]
+M = P_Est[:,:3]
 
 print("\nThe Estimated M Matrix is:\n", M)
 
@@ -88,13 +88,15 @@ print("\nE1 is:\n", E1)
 
 
 A2 = M[1][:]
-U2 = A2 - np.dot(U1,A2)/np.linalg.norm(A2)
+#U2 = A2 - np.dot(U1,A2)/np.linalg.norm(A2)
+U2 = A2 - np.dot(U1,A2)
 E2 = U2/np.linalg.norm(U2)
 print("\nE2 is:\n", E2)
 
 
 A3 = M[2][:]
-U3 = A3 - np.dot(U1,A3)/np.linalg.norm(A3) - np.dot(U2, A3)/np.linalg.norm(A3)
+#U3 = A3 - np.dot(U1,A3)/np.linalg.norm(A3) - np.dot(U2, A3)/np.linalg.norm(A3)
+U3 = A3 - np.dot(U1,A3)- np.dot(U2, A3)
 E3 = U3/np.linalg.norm(U3)
 print("\nE3 is:\n", E3)
 
@@ -105,7 +107,7 @@ print("\nThe Estimated R Matrix is:\n", R)
 
 ##------------------------Calculating K Matrix--------------------------##
 
-K = M*np.linalg.inv(R)
+K = M @ np.linalg.inv(R)
 print("\nThe Estimated Intrinsic Matrix K is:\n", K)
 
 

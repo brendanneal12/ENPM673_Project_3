@@ -24,6 +24,8 @@ Question 1: numpy
 Question 2: numpy and opencv
 
 # How to Run Code: Question 1
+1. Download project_3_question_1.py.
+2. Hit "Run"
 
 # How to Run Code: Question 2
 1. Download project_3_question_2.py and include all 13 calibration images in your workspace.
