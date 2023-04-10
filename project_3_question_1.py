@@ -68,9 +68,9 @@ C_Est = C_Est/C_Est.item(3)
 print("\n The estimated C Matrix is: \n", C_Est)
 
 ##-------------------------Calculating M Matrix--------------------------##
-IC = np.array([[1, 0, 0, -C_Est[0][0]], [0, 1, 0, -C_Est[1][0]], [0, 0, 1, -C_Est[2][0]]])
+# IC = np.array([[1, 0, 0, -C_Est[0][0]], [0, 1, 0, -C_Est[1][0]], [0, 0, 1, -C_Est[2][0]]])
 
-print("\n IC is: \n", IC)
+# print("\n IC is: \n", IC)
 
 #M = P_Est @ np.linalg.pinv(IC)
 
@@ -102,7 +102,7 @@ print("\nE3 is:\n", E3)
 
 
 R = np.array([E1, E2, E3]).T
-print("\nThe Estimated R Matrix is:\n", R)
+print("\nThe Estimated Rotation Matrix R is:\n", R)
 
 
 ##------------------------Calculating K Matrix--------------------------##
