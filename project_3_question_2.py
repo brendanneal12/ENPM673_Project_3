@@ -68,9 +68,9 @@ for image, i in zip(Cali_Images, Cali_Image_Idxs):
     points = plotting_reproj_points[i]
     for point in points:
         cv.circle(Original_Image_Copy, tuple(point[0]), 8, (0,0,255), -1)
-        cv.namedWindow("Found Corners with Reprojected Points", cv.WINDOW_NORMAL)
-        cv.resizeWindow("Found Corners with Reprojected Points", 500, 400)
-        cv.imshow("Found Corners with Reprojected Points", Original_Image_Copy); cv.waitKey(10) 
+        cv.namedWindow("Reprojected Points", cv.WINDOW_NORMAL)
+        cv.resizeWindow("Reprojected Points", 500, 400)
+        cv.imshow("Reprojected Points", Original_Image_Copy); cv.waitKey(10) 
 
 
  
