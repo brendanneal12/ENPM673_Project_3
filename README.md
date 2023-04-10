@@ -8,8 +8,20 @@ UID: 119471128
 
 Directory ID: bneal12
 
+# Project Information
+
+Goal: Camera Calibration both from scratch and in-build functions.
+
+File Names: project_3_question_1.py, project_3_question_2.py
+
+Recommended IDE: Visual Studio Code
+
+Python Version: 3
+
 # Libraries Used
-numpy, opencv
+Question 1: numpy
+
+Question 2: numpy and opencv
 
 # How to Run Code: Question 1
 
