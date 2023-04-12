@@ -51,21 +51,23 @@ P_Calc_Matrix =np.array([[X[0], Y[0], Z[0], 1, 0, 0, 0, 0, -u[0]*X[0], -u[0]*Y[0
 
 
 
-## Solve for P using SVD
-_, _, v_p = np.linalg.svd(P_Calc_Matrix)
-P_Est = np.reshape(v_p[:,-1], (3,4))
-P_Est = P_Est/P_Est.item(11)
+## Solve for P using Eigenvalue Decomposition
+e_vals, e_vecs = np.linalg.eigh(P_Calc_Matrix.T @ P_Calc_Matrix)
+P = e_vecs[:,0]
+P_Est = P/P[-1]
+P_Est = P_Est.reshape(3,4)
+
 
 print("The estimated Projection Matrix is: \n", P_Est)
 
 
 ##-----------------------Calculating C Matrix----------------------------##
 
-
-#Solve for C using SVD
-_, _, v_c = np.linalg.svd(P_Est)
-C_Est = np.reshape(v_c[:,-1], (4,1))
-C_Est = C_Est/C_Est.item(3)
+#Solve for C using Eigenvalue Decomposition
+evals, evecs = np.linalg.eigh(P_Est.T @ P_Est)
+C = evecs[:,0]
+C_Est = C/C[-1]
+C_Est = C_Est.reshape(4,1)
 
 print("\n The estimated C Matrix is: \n", C_Est)
 
@@ -89,17 +91,17 @@ A3 = M[2]
 U1 = A1
 E1 = U1 / np.linalg.norm(U1)
 
-print("\n E1 is: \n", E1)
+#print("\n E1 is: \n", E1)
 
 U2 = A2 - (np.dot(U1, A2)/np.dot(U1, U1)) * U1
 E2 = U2 / np.linalg.norm(U2)
 
-print("\n E2 is: \n", E2)
+#print("\n E2 is: \n", E2)
 
 U3 = A3 - (np.dot(U1, A3)/np.dot(U1, U1)) * U1 - (np.dot(U2, A3)/np.dot(U2, U2)) * U2
 E3 = U3/ np.linalg.norm(U3)
 
-print("\n E3 is: \n", E3)
+#print("\n E3 is: \n", E3)
 
 R = np.array([E1, E2, E3])
 
@@ -114,12 +116,11 @@ K = K/K.item(8)
 print("\nThe Estimated Intrinsic Matrix K is:\n", K)
 
 ##--------------Calculating Reprojection Error for Each Point-----------##
-
 all_reproj_errors = []
 for i in point_index_array:
     projected_point = np.dot(P_Est, np.array([[X[i]],[Y[i]], [Z[i]], [1]]))
     projected_point = projected_point[:2]/projected_point[2]
-    print(projected_point)
+
 
 
 
@@ -128,6 +129,8 @@ for i in point_index_array:
     reprojection_error = np.sqrt(np.sum(point_diff)**2)
 
     print("\n The reprojection error for world points", X[i], Y[i], Z[i], "and image points", u[i], v[i], "is:", reprojection_error)
+
+    #print("\n The projected point for the above error is:\n", projected_point)
 
     all_reproj_errors.append(reprojection_error)
 
