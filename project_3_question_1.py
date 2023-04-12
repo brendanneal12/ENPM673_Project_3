@@ -83,7 +83,7 @@ print("\nThe Estimated M Matrix is:\n", M)
 
 ##-------------------------Calculating R Matrix--------------------------##
 
-#Gram-Schmidt Process Performed Manually
+'''Gram-Schmidt Process Performed Manually'''
 A1 = M[0]
 A2 = M[1]
 A3 = M[2]
@@ -118,23 +118,20 @@ print("\nThe Estimated Intrinsic Matrix K is:\n", K)
 ##--------------Calculating Reprojection Error for Each Point-----------##
 all_reproj_errors = []
 for i in point_index_array:
-    projected_point = np.dot(P_Est, np.array([[X[i]],[Y[i]], [Z[i]], [1]]))
-    projected_point = projected_point[:2]/projected_point[2]
+    projected_point = np.dot(P_Est, np.array([[X[i]],[Y[i]], [Z[i]], [1]])) #Project the Point using Dot Product
+    projected_point = projected_point[:2]/projected_point[2] #Normalize Projected Point
 
+    point_diff = projected_point - np.array([[u[i]] , [v[i]]]) #Calculate Difference between both points
 
-
-
-    point_diff = projected_point - np.array([[u[i]] , [v[i]]])
-
-    reprojection_error = np.sqrt(np.sum(point_diff)**2)
+    reprojection_error = np.sqrt(np.sum(point_diff)**2) #Calculate Euclidian Distance Between two points.
 
     print("\n The reprojection error for world points", X[i], Y[i], Z[i], "and image points", u[i], v[i], "is:", reprojection_error)
 
     #print("\n The projected point for the above error is:\n", projected_point)
 
-    all_reproj_errors.append(reprojection_error)
+    all_reproj_errors.append(reprojection_error) #Append for average calculation
 
-avg_reproj_error = np.mean(all_reproj_errors)
+avg_reproj_error = np.mean(all_reproj_errors) #Calculate Average for all 8 points.
 
 print("\n The mean reprojection error for all the points is:", avg_reproj_error)
 
