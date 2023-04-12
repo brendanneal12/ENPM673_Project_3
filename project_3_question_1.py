@@ -5,7 +5,7 @@
 
 ##-----------------------------Importing Libraries---------------------------##
 import numpy as np
-import scipy as sp
+
 
 ##-------------------Setting Up Arrays from Project Document-----------------##
 
@@ -47,6 +47,8 @@ P_Calc_Matrix =np.array([[X[0], Y[0], Z[0], 1, 0, 0, 0, 0, -u[0]*X[0], -u[0]*Y[0
                          ])
 
 
+
+## Solve for P using SVD
 _, _, v = np.linalg.svd(P_Calc_Matrix)
 P_Est = np.reshape(v[:,-1], (3,4))
 P_Est = P_Est/P_Est.item(11)
@@ -56,6 +58,8 @@ print("The estimated Projection Matrix is: \n", P_Est)
 
 ##-----------------------Calculating C Matrix----------------------------##
 
+
+#Solve for C using SVD
 _, _, v_c = np.linalg.svd(P_Est)
 C_Est = np.reshape(v_c[:,-1], (4,1))
 C_Est = C_Est/C_Est.item(3)
@@ -66,6 +70,7 @@ print("\n The estimated C Matrix is: \n", C_Est)
 
 ##-------------------------Calculating M Matrix--------------------------##
 
+#M matrix is the left 3x3 of P
 M = P_Est[:,:3]
 
 print("\nThe Estimated M Matrix is:\n", M)
@@ -73,6 +78,7 @@ print("\nThe Estimated M Matrix is:\n", M)
 
 ##-------------------------Calculating R Matrix--------------------------##
 
+#Gram-Schmidt Process Performed Manually
 A1 = M[0]
 A2 = M[1]
 A3 = M[2]
@@ -92,7 +98,7 @@ E3 = U3/ np.linalg.norm(U3)
 
 print("\n E3 is: \n", E3)
 
-R = np.array([E1, E2, E3]).T
+R = np.array([E1, E2, E3])
 
 print("\nThe Estimated Rotation Matrix R is:\n", R)
 
@@ -100,7 +106,8 @@ print("\nThe Estimated Rotation Matrix R is:\n", R)
 
 ##------------------------Calculating K Matrix--------------------------##
 
-K = M @ np.linalg.inv(R)
+K = (M @ np.linalg.inv(R)).T
+K = K/K.item(8)
 print("\nThe Estimated Intrinsic Matrix K is:\n", K)
 
 
