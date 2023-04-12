@@ -15,12 +15,15 @@ X = np.array([0, 0, 0, 0, 7, 0, 7, 0]) #World X Points
 Y = np.array([0, 3, 7, 11, 1, 11, 9, 1]) #World Y Points
 Z = np.array([0, 0, 0, 0, 0, 7, 0, 7]) #World Z Points
 
+point_index_array = np.array([0,1,2,3,4,5,6,7])
+
 ##-------------------------Solving for The P Matrix--------------------------##
 #uprime = x, 
 #vprime = y
 #wprime = 1
 #X = [worldx, worldy, worldz, 1]
 
+''' This method was adapted from Arunava's Office Hours'''
 P_Calc_Matrix =np.array([[X[0], Y[0], Z[0], 1, 0, 0, 0, 0, -u[0]*X[0], -u[0]*Y[0], -u[0]*Z[0], -u[0]],
                          [0, 0, 0, 0, X[0], Y[0], Z[0], 1, -v[0]*X[0], -v[0]*Y[0], -v[0]*Z[0], -v[0]],
 
@@ -49,8 +52,8 @@ P_Calc_Matrix =np.array([[X[0], Y[0], Z[0], 1, 0, 0, 0, 0, -u[0]*X[0], -u[0]*Y[0
 
 
 ## Solve for P using SVD
-_, _, v = np.linalg.svd(P_Calc_Matrix)
-P_Est = np.reshape(v[:,-1], (3,4))
+_, _, v_p = np.linalg.svd(P_Calc_Matrix)
+P_Est = np.reshape(v_p[:,-1], (3,4))
 P_Est = P_Est/P_Est.item(11)
 
 print("The estimated Projection Matrix is: \n", P_Est)
@@ -110,6 +113,27 @@ K = (M @ np.linalg.inv(R)).T
 K = K/K.item(8)
 print("\nThe Estimated Intrinsic Matrix K is:\n", K)
 
+##--------------Calculating Reprojection Error for Each Point-----------##
+
+all_reproj_errors = []
+for i in point_index_array:
+    projected_point = np.dot(P_Est, np.array([[X[i]],[Y[i]], [Z[i]], [1]]))
+    projected_point = projected_point[:2]/projected_point[2]
+    print(projected_point)
+
+
+
+    point_diff = projected_point - np.array([[u[i]] , [v[i]]])
+
+    reprojection_error = np.sqrt(np.sum(point_diff)**2)
+
+    print("\n The reprojection error for world points", X[i], Y[i], Z[i], "and image points", u[i], v[i], "is:", reprojection_error)
+
+    all_reproj_errors.append(reprojection_error)
+
+avg_reproj_error = np.mean(all_reproj_errors)
+
+print("\n The mean reprojection error for all the points is:", avg_reproj_error)
 
 
 
