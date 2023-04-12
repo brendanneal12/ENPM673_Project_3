@@ -23,9 +23,14 @@ Question 1: numpy
 
 Question 2: numpy and opencv
 
+# Important Notes:
+There is a seperate script for each question.
+
 # How to Run Code: Question 1
 1. Download project_3_question_1.py.
 2. Hit "Run"
+3. All required outputs will be printed to the terminal.
+4. Program end.
 
 # How to Run Code: Question 2
 1. Download project_3_question_2.py and include all 13 calibration images in your workspace.
@@ -34,6 +39,6 @@ Question 2: numpy and opencv
 4. All 13 images with the detected corners will appear one by one in a window on your screen at a rate of 1 image every 1.5 seconds. Observe them, but no action needs to be taken.
 5. Once the corner detected images are done displaying, the reprojected points will then be plotted over each image one by one at a rate of 1 image every 2 seconds. Observe them, but no action needs to be taken.
 6. The camera's intrinsic matrix, the re projection error for each image, and the average reprojection error will be printed to your terminal.
-7. Program End.
+7. Program end.
 
 
